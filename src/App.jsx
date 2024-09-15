@@ -1,35 +1,49 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import './App.css';
+
+const artist = {
+  name: 'KISS OF LIFE',
+  image: 'https://i.scdn.co/image/ab67616d0000b2732ff7c76b0790cd3ad63cfc0c', 
+  albums: [
+    {
+      title: 'MIDAS TOUCH',
+      tracks: ['Midas Touch', 'Nothing'],
+    },
+    {
+      title: 'KISS OF LIFE',
+      tracks: ['Shhh', 'Bye My Neverland', 'SugarCoat', 'Countdown', 'Kitty Cat', 'Play Love Games'],
+    },
+  ],
+};
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [selectedAlbum, setSelectedAlbum] = useState(null);
+
+  const handleAlbumClick = (album) => {
+    setSelectedAlbum(selectedAlbum === album ? null : album);
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="App">
+      <h1>{artist.name} Discography</h1>
+      <img src={artist.image} alt={artist.name} />
+      <h2>Albums</h2>
+      <ul>
+        {artist.albums.map((album, index) => (
+          <li key={index}>
+            <h3 onClick={() => handleAlbumClick(album)}>{album.title}</h3>
+            {selectedAlbum === album && (
+              <ul>
+                {album.tracks.map((track, index) => (
+                  <li key={index}>{track}</li>
+                ))}
+              </ul>
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }
 
-export default App
+export default App;
